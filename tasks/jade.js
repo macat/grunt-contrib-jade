@@ -31,14 +31,15 @@ module.exports = function(grunt) {
     });
   });
 
-  var compileJade = function(srcFile, options, data) {
+  var jade = require('jade'),
+    compileJade = function(srcFile, options, data) {
     options = grunt.util._.extend({filename: srcFile}, options);
     delete options.data;
 
     var srcCode = grunt.file.read(srcFile);
 
     try {
-      return require('jade').compile(srcCode, options)(data);
+      return jade.compile(srcCode, options)(data);
     } catch (e) {
       grunt.log.error(e);
       grunt.fail.warn('Jade failed to compile.');
