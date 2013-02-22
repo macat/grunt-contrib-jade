@@ -44,7 +44,9 @@ module.exports = function(grunt) {
         if (options.wrap) {
           var template = grunt.file.read(__dirname + '/../support/amd.template');
           var templateOptions = {
-            compiled: output,
+            data: {
+              compiled: output
+            }
           };
           output = grunt.template.process(template, templateOptions);
         }
