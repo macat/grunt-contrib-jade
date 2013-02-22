@@ -39,7 +39,19 @@ module.exports = function(grunt) {
     var srcCode = grunt.file.read(srcFile);
 
     try {
-      return jade.compile(srcCode, options)(data);
+      if (options.client) {
+        var output = jade.compile(srcCode, options);
+        if (options.wrap) {
+          var template = grunt.file.read(__dirname + '/../support/amd.template');
+          var templateOptions = {
+            compiled: output,
+          };
+          output = grunt.template.process(template, templateOptions);
+        }
+        return output;
+      } else {
+        return jade.compile(srcCode, options)(data);
+      }
     } catch (e) {
       grunt.log.error(e);
       grunt.fail.warn('Jade failed to compile.');
